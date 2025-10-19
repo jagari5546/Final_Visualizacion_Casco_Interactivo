@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: AguaSuave
+  m_Name: AguaOscura
   m_Shader: {fileID: -6465566751694194690, guid: 3f2da51df2021e947897a1e125cad29f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -109,11 +109,11 @@ Material:
     - _Color: {r: 0.23382697, g: 0.40692213, b: 0.4641509, a: 0}
     - _ColorNeblina: {r: 0, g: 0, b: 0, a: 1}
     - _DIsplacementTiling: {r: 0, g: 0, b: 0, a: 0}
-    - _DeepColor: {r: 0.23891956, g: 0.48431838, b: 0.8584906, a: 0.41960785}
+    - _DeepColor: {r: 0, g: 0.109087594, b: 0.27358484, a: 0.6666667}
     - _DipsplacementVelocity: {r: 0.1, g: 0.08, b: 0, a: 0}
     - _FoamColor: {r: 1, g: 1, b: 1, a: 0.79607844}
     - _RefractionScale: {r: 1.16, g: 1.66, b: 0, a: 0}
-    - _SurfaceColor: {r: 0, g: 0.8310704, b: 1, a: 0.7176471}
+    - _SurfaceColor: {r: 0.031955667, g: 0.024964407, b: 0.31132078, a: 0.7176471}
     - _UV1: {r: 4, g: 4, b: -0.3, a: 0.3}
     - _UV2: {r: 5, g: 5, b: 0, a: 0}
     - _WaterSpeed: {r: 0.1, g: 0.1, b: 0, a: 0}
