@@ -6,74 +6,93 @@ public class UnderwaterScript : MonoBehaviour
 {
     [Header("Depth Parameters")]
     [SerializeField] private Transform mainCamera;
-    [SerializeField] private float depth = 0f;
+    [Tooltip("Umbral para ENTRAR bajo el agua")]
+    [SerializeField] private float enterDepthY = 0f;
+    [Tooltip("Umbral para SALIR del agua (mayor que enterDepthY)")]
+    [SerializeField] private float exitDepthY  = 1f;  // histeresis: evita rebote
     [SerializeField] private bool useDepthAutoTrigger = true;
 
-    [Header("Fog (RenderSettings)")]
-    public bool tweenFog = true;
+    [Header("Fog (RenderSettings) – SOLO END DISTANCE")]
+    public bool tweenFogEnd = true;
     public float fogTweenDuration = 2f;
     public AnimationCurve fogCurve = AnimationCurve.Linear(0,0,1,1);
 
-    [Header("Fog Presets")]
-    public float surfaceFogStart = 500f;
-    public float surfaceFogEnd   = 1000f;
-    public float surfaceFogDensity = 0.005f;
-    public float underwaterFogStart = 200f;
-    public float underwaterFogEnd   = 800f;
-    public float underwaterFogDensity = 0.02f;
+    [Header("Fog End Targets")]
+    public float surfaceFogEndStart  = 200f;  // valor inicial al cargar
+    public float surfaceFogEndFinal  = 200f;  // target al salir (tu 200)
+    public float underwaterFogEndStart = 200f; // punto A al entrar
+    public float underwaterFogEndFinal = 450f; // punto B al entrar (tu 450)
 
-    [Header("Post Processing Volumes")]
-    [SerializeField] private Volume surfaceVolume;
-    [SerializeField] private Volume underwaterVolume;
-    public float ppBlendDuration = 2f;
+    [Header("Post Processing Volumes (weights blend)")]
+    [SerializeField] private Volume surfaceVolume;     // weight 1
+    [SerializeField] private Volume underwaterVolume;  // weight 0
+    public float ppBlendDuration = 1f;
     public AnimationCurve ppCurve = AnimationCurve.Linear(0,0,1,1);
 
     private bool isUnderwater = false;
+    private bool tweenLock = false;    // evita re-disparos durante tween
     private Coroutine fogCo, ppCo;
 
     void Awake()
     {
         RenderSettings.fog = true;
-        ApplyFogInstant(surfaceFogStart, surfaceFogEnd, surfaceFogDensity);
+        RenderSettings.fogMode = FogMode.Linear;
+        RenderSettings.fogEndDistance = surfaceFogEndStart;
         SetPPWeights(1f, 0f);
     }
 
     void Update()
     {
-        if (!useDepthAutoTrigger || mainCamera == null) return;
+        if (!useDepthAutoTrigger || mainCamera == null || tweenLock) return;
 
-        if (!isUnderwater && mainCamera.position.y < depth)
+        float y = mainCamera.position.y;
+
+        if (!isUnderwater && y < enterDepthY)
             EnterUnderwater();
-        else if (isUnderwater && mainCamera.position.y >= depth)
+        else if (isUnderwater && y > exitDepthY)
             ExitUnderwater();
     }
 
+    // ===== Entrar/Salir públicos =====
     public void EnterUnderwater()
     {
         if (isUnderwater) return;
         isUnderwater = true;
-        StartFogTween(underwaterFogStart, underwaterFogEnd, underwaterFogDensity);
-        StartPPTween(1f, 0f, 0f, 1f); // surface 1->0, underwater 0->1
+        StartTransitions(
+            fromEnd:  RenderSettings.fogEndDistance,
+            toEnd:    underwaterFogEndFinal,
+            ppSurfTo: 0f, ppUnderTo: 1f
+        );
     }
 
     public void ExitUnderwater()
     {
         if (!isUnderwater) return;
         isUnderwater = false;
-        StartFogTween(surfaceFogStart, surfaceFogEnd, surfaceFogDensity);
-        StartPPTween(surfaceVolume.weight, underwaterVolume.weight, 1f, 0f); // vuelve
+        StartTransitions(
+            fromEnd:  RenderSettings.fogEndDistance,
+            toEnd:    surfaceFogEndFinal,
+            ppSurfTo: 1f, ppUnderTo: 0f
+        );
     }
 
+    // ===== Lanzador unificado con lock =====
+    void StartTransitions(float fromEnd, float toEnd, float ppSurfTo, float ppUnderTo)
+    {
+        tweenLock = true;
+
+        if (fogCo != null) StopCoroutine(fogCo);
+        fogCo = StartCoroutine(FogEndRoutine(fromEnd, toEnd));
+
+        if (ppCo != null) StopCoroutine(ppCo);
+        ppCo = StartCoroutine(PPRoutine(surfaceVolume.weight, underwaterVolume.weight, ppSurfTo, ppUnderTo));
+    }
+
+    // ===== PP blend =====
     void SetPPWeights(float surfaceW, float underwaterW)
     {
-        if (surfaceVolume)   surfaceVolume.weight = Mathf.Clamp01(surfaceW);
+        if (surfaceVolume)    surfaceVolume.weight = Mathf.Clamp01(surfaceW);
         if (underwaterVolume) underwaterVolume.weight = Mathf.Clamp01(underwaterW);
-    }
-
-    void StartPPTween(float surfFrom, float underFrom, float surfTo, float underTo)
-    {
-        if (ppCo != null) StopCoroutine(ppCo);
-        ppCo = StartCoroutine(PPRoutine(surfFrom, underFrom, surfTo, underTo));
     }
 
     IEnumerator PPRoutine(float sFrom, float uFrom, float sTo, float uTo)
@@ -90,42 +109,29 @@ public class UnderwaterScript : MonoBehaviour
         ppCo = null;
     }
 
-    void ApplyFogInstant(float start, float end, float density)
+    // ===== SOLO FogEndDistance tween con fuerza al final =====
+    IEnumerator FogEndRoutine(float endFrom, float endTo)
     {
-        RenderSettings.fogStartDistance = start;
-        RenderSettings.fogEndDistance   = end;
-        RenderSettings.fogDensity       = density;
-    }
+        float t = 0f;
+        float startValue = endFrom; // partimos del valor actual
 
-    void StartFogTween(float targetStart, float targetEnd, float targetDensity)
-    {
-        if (!tweenFog)
+        while (t < fogTweenDuration)
         {
-            ApplyFogInstant(targetStart, targetEnd, targetDensity);
-            return;
-        }
-        if (fogCo != null) StopCoroutine(fogCo);
-        fogCo = StartCoroutine(FogRoutine(targetStart, targetEnd, targetDensity));
-    }
-
-    IEnumerator FogRoutine(float tStart, float tEnd, float tDensity)
-    {
-        float d = Mathf.Max(0.0001f, fogTweenDuration);
-        float s0 = RenderSettings.fogStartDistance;
-        float e0 = RenderSettings.fogEndDistance;
-        float den0 = RenderSettings.fogDensity;
-
-        while (d > 0f)
-        {
-            float k = fogCurve.Evaluate(1f - (d / fogTweenDuration));
-            RenderSettings.fogStartDistance = Mathf.Lerp(s0, tStart, k);
-            RenderSettings.fogEndDistance   = Mathf.Lerp(e0, tEnd,   k);
-            RenderSettings.fogDensity       = Mathf.Lerp(den0, tDensity, k);
-            d -= Time.deltaTime;
+            float k = fogCurve.Evaluate(t / fogTweenDuration);
+            RenderSettings.fogEndDistance = Mathf.Lerp(startValue, endTo, k);
+            t += Time.deltaTime;
             yield return null;
         }
 
-        ApplyFogInstant(tStart, tEnd, tDensity);
+        // Fuerza valor final y libera el lock
+        RenderSettings.fogEndDistance = endTo;
         fogCo = null;
+        tweenLock = false;
+    }
+
+    void OnDisable()
+    {
+        // Garantiza estado surface al deshabilitar (opcional)
+        RenderSettings.fogEndDistance = isUnderwater ? underwaterFogEndFinal : surfaceFogEndFinal;
     }
 }
