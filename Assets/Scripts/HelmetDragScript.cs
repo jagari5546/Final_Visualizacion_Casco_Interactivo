@@ -1,91 +1,140 @@
-using System;
-using NUnit.Framework.Internal;
 using UnityEngine;
-using Unity.Cinemachine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using Unity.Cinemachine; // si no usas Cinemachine, cambia el tipo a Camera
 
 public class HelmetDragScript : MonoBehaviour
 {
-    [SerializeField] private CinemachineCamera _mainCamera;
-    [SerializeField] private InputActionAsset _action;
+    [Header("Refs")]
+    [SerializeField] private CinemachineCamera cam; // o Camera cam
+    [Tooltip("Capa(s) clickeables del casco")]
+    [SerializeField] private LayerMask interactMask = ~0; // por defecto todo
 
-    private Vector3 mPrevPos = Vector3.zero;
-    private Vector3 mPosDelta = Vector3.zero;
+    [Header("Input (New Input System)")]
+    // Asigna desde tu InputActionAsset (Pointer/press, Pointer/delta, Pointer/position)
+    [SerializeField] private InputActionReference pointerPress;    // Button
+    [SerializeField] private InputActionReference pointerDelta;    // Vector2
+    [SerializeField] private InputActionReference pointerPosition; // Vector2
 
-    public InputActionAsset action
+    [Header("Rotación")]
+    [SerializeField] private float rotationSpeed = 0.2f;
+    [SerializeField] private bool invertY = false;
+
+    private bool dragging = false;
+    private int activePointerId = -1; // mouse = -1; touch = touchId
+
+    void OnEnable()
     {
-        get => _action;
-        set => _action = value;
+        if (pointerPress != null)
+        {
+            pointerPress.action.started   += OnPointerPressed;
+            pointerPress.action.canceled  += OnPointerReleased;
+            pointerPress.action.Enable();
+        }
+        if (pointerDelta != null)   pointerDelta.action.Enable();
+        if (pointerPosition != null) pointerPosition.action.Enable();
+
+        // ¡No bloquees el cursor si quieres UI!
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible   = true;
     }
-    
-    protected InputAction leftClickPressedInputAction {get; set;}
-    
-    protected InputAction mouseLockInputAction {get; set;}
 
-    private bool _rotateAllowed;
-    
-    [SerializeField] private float _rotationSpeed = 0.2f;
-    [SerializeField] private bool _inverted;
-
-    private void Awake()
+    void OnDisable()
     {
-        InitializeInputSystem();
+        if (pointerPress != null)
+        {
+            pointerPress.action.started  -= OnPointerPressed;
+            pointerPress.action.canceled -= OnPointerReleased;
+            pointerPress.action.Disable();
+        }
+        if (pointerDelta != null)   pointerDelta.action.Disable();
+        if (pointerPosition != null) pointerPosition.action.Disable();
     }
 
-    private void Start()
+    void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        if (!dragging) return;
+
+        Vector2 delta = pointerDelta != null ? pointerDelta.action.ReadValue<Vector2>() : Vector2.zero;
+        if (delta.sqrMagnitude <= Mathf.Epsilon) return;
+
+        float dx = delta.x * rotationSpeed * Time.deltaTime;
+        float dy = delta.y * rotationSpeed * Time.deltaTime * (invertY ? 1f : -1f);
+
+        // Ejes de referencia
+        Transform camTf = cam != null ? cam.transform : Camera.main.transform;
+
+        // 1) Yaw alrededor del 'up' del casco (drag horizontal)
+        transform.Rotate(transform.up, dx, Space.World);
+
+        // 2) Pitch alrededor del 'right' de la cámara (drag vertical)
+        transform.Rotate(camTf.right, dy, Space.World);
     }
 
-    private void Update()
+    // ---------- INPUT HANDLERS ----------
+    private void OnPointerPressed(InputAction.CallbackContext ctx)
     {
-        if (!_rotateAllowed)
+        // Si el puntero está sobre UI, no empezamos drag
+        if (IsPointerOverUI(out int pointerId))
             return;
 
-        Vector2 MouseDelta = GetMouseLookInput();
-        
-        MouseDelta *= _rotationSpeed *Time.deltaTime;
-        
-        transform.Rotate(Vector3.up *(_inverted ? 1 : -1), MouseDelta.x, Space.World);
-        transform.Rotate(Vector3.right *(_inverted ? 1 : -1), MouseDelta.y, Space.World);
-        
+        // Raycast pantalla -> mundo, solo empezamos drag si clic sobre este objeto (o su capa)
+        if (!ScreenRayHitsThis(pointerId))
+            return;
+
+        dragging = true;
+        activePointerId = pointerId; // recuerda quién inició el drag (mouse/touch)
     }
 
-    private void InitializeInputSystem()
+    private void OnPointerReleased(InputAction.CallbackContext ctx)
     {
-        leftClickPressedInputAction = action.FindAction("Attack");
-        if (leftClickPressedInputAction != null)
-        {
-            leftClickPressedInputAction.started += OnLeftClickPressed;
-            leftClickPressedInputAction.performed += OnLeftClickPressed;
-            leftClickPressedInputAction.canceled += OnLeftClickPressed;
-        }
-        
-        mouseLockInputAction = action.FindAction("Lock");
-        
-        action.Enable();
-
+        dragging = false;
+        activePointerId = -1;
     }
 
-    protected virtual void OnLeftClickPressed(InputAction.CallbackContext context)
+    // ---------- HELPERS ----------
+    private bool IsPointerOverUI(out int pointerId)
     {
-        if (context.started || context.performed)
+        pointerId = -1;
+
+        // Mouse
+        if (Mouse.current != null && Mouse.current.leftButton.isPressed)
         {
-            _rotateAllowed = true;
+            pointerId = PointerInputModule.kMouseLeftId; // -1
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                return true;
         }
-        else if (context.canceled)
+
+        // Touch
+        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
         {
-            _rotateAllowed = false;
+            pointerId = Touchscreen.current.primaryTouch.touchId.ReadValue();
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(pointerId))
+                return true;
         }
+
+        return false;
     }
 
-    protected virtual Vector2 GetMouseLookInput()
+    private bool ScreenRayHitsThis(int pointerId)
     {
-        if (mouseLockInputAction != null)
+        if (pointerPosition == null) return false;
+
+        Vector2 pos = pointerPosition.action.ReadValue<Vector2>();
+        var camTf = cam != null ? cam.transform : Camera.main.transform;
+        var ray = (cam != null ? cam.Lens : null) != null
+            ? new Ray(cam.transform.position, cam.transform.forward) // fallback simple
+            : Camera.main.ScreenPointToRay(pos);
+
+        // Si usas CinemachineCamera, lo normal es usar Camera.main para el ray:
+        if (cam != null && Camera.main != null)
+            ray = Camera.main.ScreenPointToRay(pos);
+
+        if (Physics.Raycast(ray, out var hit, 1000f, interactMask, QueryTriggerInteraction.Ignore))
         {
-            return mouseLockInputAction.ReadValue<Vector2>();
+            // true si golpeó este objeto o un hijo suyo
+            return hit.transform == transform || hit.transform.IsChildOf(transform);
         }
-        return Vector2.zero;
+        return false;
     }
-    
 }
