@@ -1,27 +1,35 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-using Unity.Cinemachine; // si no usas Cinemachine, cambia el tipo a Camera
+using Unity.Cinemachine;
 
 public class HelmetDragScript : MonoBehaviour
 {
     [Header("Refs")]
-    [SerializeField] private CinemachineCamera cam; // o Camera cam
-    [Tooltip("Capa(s) clickeables del casco")]
-    [SerializeField] private LayerMask interactMask = ~0; // por defecto todo
+    [SerializeField] private CinemachineCamera cam;
+    [SerializeField] private LayerMask interactMask = ~0;
 
     [Header("Input (New Input System)")]
-    // Asigna desde tu InputActionAsset (Pointer/press, Pointer/delta, Pointer/position)
-    [SerializeField] private InputActionReference pointerPress;    // Button
-    [SerializeField] private InputActionReference pointerDelta;    // Vector2
-    [SerializeField] private InputActionReference pointerPosition; // Vector2
+    [SerializeField] private InputActionReference pointerPress;
+    [SerializeField] private InputActionReference pointerDelta;
+    [SerializeField] private InputActionReference pointerPosition;
 
-    [Header("Rotación")]
+    [Header("Rotación Manual")]
     [SerializeField] private float rotationSpeed = 0.2f;
     [SerializeField] private bool invertY = false;
 
+    [Header("Rotación Automática")]
+    [SerializeField] private float autoRotateSpeed = 10f;     // grados/seg
+    [SerializeField] private float inertiaDamping = 3f;       // entre 1–10
+    [SerializeField] private float uprightReturnSpeed = 2f;   // velocidad para enderezarse
+
     private bool dragging = false;
-    private int activePointerId = -1; // mouse = -1; touch = touchId
+    private int activePointerId = -1;
+
+    // --- Nuevas variables ---
+    private Vector2 lastInputDelta;
+    private Vector3 lastAngularVelocity;
+    private Quaternion targetUprightRotation;
 
     void OnEnable()
     {
@@ -31,12 +39,13 @@ public class HelmetDragScript : MonoBehaviour
             pointerPress.action.canceled  += OnPointerReleased;
             pointerPress.action.Enable();
         }
-        if (pointerDelta != null)   pointerDelta.action.Enable();
+        if (pointerDelta != null) pointerDelta.action.Enable();
         if (pointerPosition != null) pointerPosition.action.Enable();
 
-        // ¡No bloquees el cursor si quieres UI!
         Cursor.lockState = CursorLockMode.None;
-        Cursor.visible   = true;
+        Cursor.visible = true;
+
+        targetUprightRotation = Quaternion.identity;
     }
 
     void OnDisable()
@@ -47,43 +56,73 @@ public class HelmetDragScript : MonoBehaviour
             pointerPress.action.canceled -= OnPointerReleased;
             pointerPress.action.Disable();
         }
-        if (pointerDelta != null)   pointerDelta.action.Disable();
+        if (pointerDelta != null) pointerDelta.action.Disable();
         if (pointerPosition != null) pointerPosition.action.Disable();
     }
 
     void Update()
     {
-        if (!dragging) return;
+        if (dragging)
+        {
+            Vector2 delta = pointerDelta != null ? pointerDelta.action.ReadValue<Vector2>() : Vector2.zero;
+            if (delta.sqrMagnitude <= Mathf.Epsilon) return;
 
-        Vector2 delta = pointerDelta != null ? pointerDelta.action.ReadValue<Vector2>() : Vector2.zero;
-        if (delta.sqrMagnitude <= Mathf.Epsilon) return;
+            float dx = delta.x * rotationSpeed * Time.deltaTime;
+            float dy = delta.y * rotationSpeed * Time.deltaTime * (invertY ? 1f : -1f);
 
-        float dx = delta.x * rotationSpeed * Time.deltaTime;
-        float dy = delta.y * rotationSpeed * Time.deltaTime * (invertY ? 1f : -1f);
+            Transform camTf = cam != null ? cam.transform : Camera.main.transform;
 
-        // Ejes de referencia
-        Transform camTf = cam != null ? cam.transform : Camera.main.transform;
+            // Rotaciones
+            transform.Rotate(transform.up, dx, Space.World);
+            transform.Rotate(camTf.right, dy, Space.World);
 
-        // 1) Yaw alrededor del 'up' del casco (drag horizontal)
-        transform.Rotate(transform.up, dx, Space.World);
+            // Guarda última velocidad angular (para inercia)
+            lastAngularVelocity = new Vector3(dy, dx, 0f);
+            lastInputDelta = delta;
+        }
+        else
+        {
+            // 🔹 Inercia: el casco sigue girando suavemente
+            if (lastAngularVelocity.sqrMagnitude > 0.001f)
+            {
+                transform.Rotate(Vector3.up, lastAngularVelocity.y, Space.World);
+                transform.Rotate(cam.transform.right, lastAngularVelocity.x, Space.World);
 
-        // 2) Pitch alrededor del 'right' de la cámara (drag vertical)
-        transform.Rotate(camTf.right, dy, Space.World);
+                // Frenado gradual
+                lastAngularVelocity = Vector3.Lerp(lastAngularVelocity, Vector3.zero, Time.deltaTime * inertiaDamping);
+            }
+
+            // 🔹 Rotación automática continua (eje Y)
+            transform.Rotate(Vector3.up, autoRotateSpeed * Time.deltaTime, Space.World);
+
+            // 🔹 Reajuste vertical (vuelve boca arriba)
+            UprightCorrection();
+        }
     }
 
-    // ---------- INPUT HANDLERS ----------
+    private void UprightCorrection()
+    {
+        // Alinea el casco para que su 'up' vuelva a alinearse con el Vector3.up
+        Vector3 forward = transform.forward;
+        forward.y = 0; // mantiene horizontal
+        if (forward.sqrMagnitude > 0.001f)
+        {
+            Quaternion target = Quaternion.LookRotation(forward.normalized, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * uprightReturnSpeed);
+        }
+    }
+
     private void OnPointerPressed(InputAction.CallbackContext ctx)
     {
-        // Si el puntero está sobre UI, no empezamos drag
         if (IsPointerOverUI(out int pointerId))
             return;
 
-        // Raycast pantalla -> mundo, solo empezamos drag si clic sobre este objeto (o su capa)
         if (!ScreenRayHitsThis(pointerId))
             return;
 
         dragging = true;
-        activePointerId = pointerId; // recuerda quién inició el drag (mouse/touch)
+        activePointerId = pointerId;
+        lastAngularVelocity = Vector3.zero; // detiene inercia anterior
     }
 
     private void OnPointerReleased(InputAction.CallbackContext ctx)
@@ -92,20 +131,17 @@ public class HelmetDragScript : MonoBehaviour
         activePointerId = -1;
     }
 
-    // ---------- HELPERS ----------
     private bool IsPointerOverUI(out int pointerId)
     {
         pointerId = -1;
 
-        // Mouse
         if (Mouse.current != null && Mouse.current.leftButton.isPressed)
         {
-            pointerId = PointerInputModule.kMouseLeftId; // -1
+            pointerId = PointerInputModule.kMouseLeftId;
             if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
                 return true;
         }
 
-        // Touch
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
         {
             pointerId = Touchscreen.current.primaryTouch.touchId.ReadValue();
@@ -121,18 +157,10 @@ public class HelmetDragScript : MonoBehaviour
         if (pointerPosition == null) return false;
 
         Vector2 pos = pointerPosition.action.ReadValue<Vector2>();
-        var camTf = cam != null ? cam.transform : Camera.main.transform;
-        var ray = (cam != null ? cam.Lens : (LensSettings?)null) != null
-            ? new Ray(cam.transform.position, cam.transform.forward) // fallback simple
-            : Camera.main.ScreenPointToRay(pos);
-
-        // Si usas CinemachineCamera, lo normal es usar Camera.main para el ray:
-        if (cam != null && Camera.main != null)
-            ray = Camera.main.ScreenPointToRay(pos);
+        Ray ray = Camera.main.ScreenPointToRay(pos);
 
         if (Physics.Raycast(ray, out var hit, 1000f, interactMask, QueryTriggerInteraction.Ignore))
         {
-            // true si golpeó este objeto o un hijo suyo
             return hit.transform == transform || hit.transform.IsChildOf(transform);
         }
         return false;

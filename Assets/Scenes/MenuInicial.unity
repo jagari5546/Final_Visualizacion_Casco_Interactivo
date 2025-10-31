@@ -42662,7 +42662,7 @@ Transform:
   m_GameObject: {fileID: 1740832901}
   serializedVersion: 2
   m_LocalRotation: {x: 0.062214904, y: -0, z: -0, w: 0.99806285}
-  m_LocalPosition: {x: -241.95, y: -50.66, z: 275.07}
+  m_LocalPosition: {x: -241.95, y: -47.87, z: 275.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42692,11 +42692,14 @@ MonoBehaviour:
   interactMask:
     serializedVersion: 2
     m_Bits: 64
-  pointerPress: {fileID: 0}
-  pointerDelta: {fileID: 0}
-  pointerPosition: {fileID: 0}
-  rotationSpeed: 0.2
+  pointerPress: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  pointerDelta: {fileID: -5630151704836100654, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  pointerPosition: {fileID: -2763399025035087400, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  rotationSpeed: 30
   invertY: 0
+  autoRotateSpeed: 10
+  inertiaDamping: 3
+  uprightReturnSpeed: 2
 --- !u!135 &1740832904
 SphereCollider:
   m_ObjectHideFlags: 0
