@@ -122,7 +122,7 @@ public class HelmetDragScript : MonoBehaviour
 
         Vector2 pos = pointerPosition.action.ReadValue<Vector2>();
         var camTf = cam != null ? cam.transform : Camera.main.transform;
-        var ray = (cam != null ? cam.Lens : null) != null
+        var ray = (cam != null ? cam.Lens : (LensSettings?)null) != null
             ? new Ray(cam.transform.position, cam.transform.forward) // fallback simple
             : Camera.main.ScreenPointToRay(pos);
 
