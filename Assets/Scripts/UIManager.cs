@@ -6,8 +6,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject FirstPanel;
     [SerializeField] private GameObject StartButton;
     [SerializeField] private GameObject Helmet;
-    //[SerializeField] private GameObject InfoPanel;
-    //[SerializeField] private GameObject IntroPanel;
+    [SerializeField] private GameObject RepairsPanel;
+    [SerializeField] private GameObject InventoryPanel;
+    [SerializeField] private GameObject FunctionsPanel;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -17,7 +18,9 @@ public class UIManager : MonoBehaviour
         FirstPanel.SetActive(false);
         StartButton.SetActive(true);
         Helmet.SetActive(false);
-        //InfoPanel.SetActive(false);
+        RepairsPanel.SetActive(false);
+        InventoryPanel.SetActive(false);
+        FunctionsPanel.SetActive(false);
         
     }
 
