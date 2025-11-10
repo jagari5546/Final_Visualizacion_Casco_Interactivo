@@ -69,7 +69,7 @@ public class PartsScript : MonoBehaviour,
         if (!enableManualRaycast) return;
         if (!interactable) return;
 
-        if (EventSystem.current != null) return; // si hay EventSystem, deja que IPointer maneje
+        if (EventSystem.current != null) return;
 
         // Fallback manual: raycast desde la cámara
         if (!cam) cam = Camera.main;

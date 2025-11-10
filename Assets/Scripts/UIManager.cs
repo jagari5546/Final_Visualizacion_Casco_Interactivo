@@ -6,7 +6,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject FirstPanel;
     [SerializeField] private GameObject StartButton;
     [SerializeField] private GameObject Helmet;
-    //[SerializeField] private GameObject IntroPanel;
+    //[SerializeField] private GameObject InfoPanel;
     //[SerializeField] private GameObject IntroPanel;
     
     
@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
         FirstPanel.SetActive(false);
         StartButton.SetActive(true);
         Helmet.SetActive(false);
+        //InfoPanel.SetActive(false);
+        
     }
 
     // Update is called once per frame

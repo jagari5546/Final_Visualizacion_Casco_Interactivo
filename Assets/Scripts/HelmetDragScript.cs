@@ -22,7 +22,6 @@ public class HelmetDragScript : MonoBehaviour
     [SerializeField] private bool invertY = false;
     [SerializeField] private bool invertX = false;
 
-
     [Header("Auto-rotación / Inercia / Enderezado")]
     [SerializeField] private float autoRotateSpeed = 15f;
     [SerializeField] private float inertiaDamping = 3.5f;
@@ -31,6 +30,8 @@ public class HelmetDragScript : MonoBehaviour
     private Camera cam;
     private bool dragging;
     private Vector3 lastAngularVel; // (x=pitch, y=yaw)
+
+    [SerializeField] private bool rotationLocked = false;
 
     void OnEnable()
     {
@@ -45,7 +46,12 @@ public class HelmetDragScript : MonoBehaviour
         pointerPosition?.action.Disable();
     }
 
-    void Awake() { ResolveCamera(); Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
+    void Awake()
+    {
+        ResolveCamera();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     void ResolveCamera()
     {
@@ -67,6 +73,9 @@ public class HelmetDragScript : MonoBehaviour
     {
         if (!cam) ResolveCamera();
 
+        if (rotationLocked) return;
+
+        // START drag
         if (pointerPress && pointerPress.action.WasPressedThisFrame())
         {
             if (RayHitsThis())
@@ -87,13 +96,13 @@ public class HelmetDragScript : MonoBehaviour
             Vector2 delta = pointerDelta ? pointerDelta.action.ReadValue<Vector2>() : Vector2.zero;
             if (delta.sqrMagnitude > Mathf.Epsilon)
             {
-                float dx = delta.x * rotationSpeed * Time.deltaTime * (invertX ? -1f : 1f);
-                float dy = delta.y * rotationSpeed * Time.deltaTime * (invertY ? 1 : -1);
+                float dx = delta.x * rotationSpeed * Time.deltaTime * (invertX ? -1f : 1f);       // yaw
+                float dy = delta.y * rotationSpeed * Time.deltaTime * (invertY ?  1f : -1f);       // pitch
 
                 Transform camTf = referenceCinemachine ? referenceCinemachine.transform : cam.transform;
 
-                transform.Rotate(transform.up, dx, Space.World);
-                transform.Rotate(camTf.right, dy, Space.World);
+                transform.Rotate(transform.up,      dx, Space.World);
+                transform.Rotate(camTf.right,       dy, Space.World);
 
                 lastAngularVel = new Vector3(dy, dx, 0f);
             }
@@ -103,8 +112,8 @@ public class HelmetDragScript : MonoBehaviour
         if (lastAngularVel.sqrMagnitude > 0.0001f)
         {
             Transform camTf = referenceCinemachine ? referenceCinemachine.transform : cam.transform;
-            transform.Rotate(transform.up, lastAngularVel.y, Space.World);
-            transform.Rotate(camTf.right, lastAngularVel.x, Space.World);
+            transform.Rotate(transform.up,   lastAngularVel.y, Space.World);
+            transform.Rotate(camTf.right,    lastAngularVel.x, Space.World);
             lastAngularVel = Vector3.Lerp(lastAngularVel, Vector3.zero, Time.deltaTime * inertiaDamping);
         }
 
@@ -113,6 +122,26 @@ public class HelmetDragScript : MonoBehaviour
         Vector3 f = transform.forward; f.y = 0f; if (f.sqrMagnitude < 0.0001f) f = Vector3.forward;
         Quaternion target = Quaternion.LookRotation(f.normalized, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * uprightReturnSpeed);
+    }
+
+    // ========== API pública (para botones/UI) ==========
+    /// Bloquea toda rotación (manual, inercia, auto y enderezado).
+    public void LockRotation()
+    {
+        rotationLocked = true;
+        dragging = false;
+        lastAngularVel = Vector3.zero;
+    }
+
+    /// Reanuda la rotación normal.
+    public void UnlockRotation()
+    {
+        rotationLocked = false;
+    }
+
+    public void SetRotationLocked(bool locked)
+    {
+        if (locked) LockRotation(); else UnlockRotation();
     }
 
     bool RayHitsThis()
