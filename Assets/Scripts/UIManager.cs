@@ -9,6 +9,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject RepairsPanel;
     [SerializeField] private GameObject InventoryPanel;
     [SerializeField] private GameObject FunctionsPanel;
+
+    //[SerializeField] private Animator InfoPanelAnimator;
+    
+    
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,6 +25,8 @@ public class UIManager : MonoBehaviour
         RepairsPanel.SetActive(false);
         InventoryPanel.SetActive(false);
         FunctionsPanel.SetActive(false);
+        
+        //InfoPanelAnimator.SetTrigger("ShowInfoPanel");
         
     }
 
