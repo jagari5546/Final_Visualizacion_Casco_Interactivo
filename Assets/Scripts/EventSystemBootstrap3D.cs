@@ -1,20 +1,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem.UI;
 #endif
+using Unity.Cinemachine;
 
-/// Asegura EventSystem + módulo UI correcto y PhysicsRaycaster en la cámara.
-/// Pon este script en un GameObject vacío de la escena (o en el mismo objeto del casco).
 [DefaultExecutionOrder(-1000)]
 public class EventSystemBootstrap3D : MonoBehaviour
 {
-    [SerializeField] private Camera targetCamera; // si lo dejas vacío usa Camera.main
+    [Header("Camera that renders world & UI raycasts")]
+    [Tooltip("Leave empty to auto-find Camera.main, else a Camera with CinemachineBrain.")]
+    [SerializeField] private Camera targetCamera;
+
+    [Header("Auto-find if targetCamera is not set")]
+    [SerializeField] private bool autoFindCamera = true;
 
     void Awake()
     {
-        // EventSystem
         var es = FindObjectOfType<EventSystem>();
         if (es == null)
         {
@@ -22,7 +24,6 @@ public class EventSystemBootstrap3D : MonoBehaviour
             es = go.AddComponent<EventSystem>();
         }
 
-        // Módulo UI según sistema de input activo
 #if ENABLE_INPUT_SYSTEM
         if (es.GetComponent<InputSystemUIInputModule>() == null &&
             es.GetComponent<StandaloneInputModule>() == null)
@@ -37,11 +38,31 @@ public class EventSystemBootstrap3D : MonoBehaviour
         }
 #endif
 
-        // PhysicsRaycaster en la cámara
-        var cam = targetCamera != null ? targetCamera : Camera.main;
-        if (cam != null && cam.GetComponent<PhysicsRaycaster>() == null)
+        if (targetCamera == null && autoFindCamera)
         {
-            cam.gameObject.AddComponent<PhysicsRaycaster>();
+            targetCamera = Camera.main;
+
+            if (targetCamera == null)
+            {
+                var brain = FindObjectOfType<CinemachineBrain>();
+                if (brain != null) targetCamera = brain.GetComponent<Camera>();
+            }
+
+            if (targetCamera == null)
+            {
+                var anyCam = FindObjectOfType<Camera>();
+                if (anyCam != null && anyCam.enabled) targetCamera = anyCam;
+            }
         }
+
+        if (targetCamera != null && targetCamera.GetComponent<PhysicsRaycaster>() == null)
+        {
+            targetCamera.gameObject.AddComponent<PhysicsRaycaster>();
+        }
+#if UNITY_2D
+        // If you raycast 2D colliders too, you can also add:
+        // if (targetCamera.GetComponent<Physics2DRaycaster>() == null)
+        //     targetCamera.gameObject.AddComponent<Physics2DRaycaster>();
+#endif
     }
 }

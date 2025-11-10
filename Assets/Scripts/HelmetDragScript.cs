@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
 using Unity.Cinemachine;
 
 public class HelmetDragScript : MonoBehaviour
 {
-    [Header("Refs")]
-    [SerializeField] private CinemachineCamera cam;
+    [Header("Camera")]
+    [Tooltip("Cámara real (la que tiene CinemachineBrain). Si se deja vacío usa Camera.main o busca una con Brain.")]
+    [SerializeField] private Camera raycastCamera;
+    [SerializeField] private CinemachineCamera referenceCinemachine;
+
+    [Header("Layers clickeables (padre + hijos)")]
     [SerializeField] private LayerMask interactMask = ~0;
 
     [Header("Input (New Input System)")]
@@ -14,155 +17,111 @@ public class HelmetDragScript : MonoBehaviour
     [SerializeField] private InputActionReference pointerDelta;
     [SerializeField] private InputActionReference pointerPosition;
 
-    [Header("Rotación Manual")]
-    [SerializeField] private float rotationSpeed = 0.2f;
+    [Header("Rotación manual")]
+    [SerializeField] private float rotationSpeed = 0.35f;
     [SerializeField] private bool invertY = false;
+    [SerializeField] private bool invertX = false;
 
-    [Header("Rotación Automática")]
-    [SerializeField] private float autoRotateSpeed = 10f;     // grados/seg
-    [SerializeField] private float inertiaDamping = 3f;       // entre 1–10
-    [SerializeField] private float uprightReturnSpeed = 2f;   // velocidad para enderezarse
 
-    private bool dragging = false;
-    private int activePointerId = -1;
+    [Header("Auto-rotación / Inercia / Enderezado")]
+    [SerializeField] private float autoRotateSpeed = 15f;
+    [SerializeField] private float inertiaDamping = 3.5f;
+    [SerializeField] private float uprightReturnSpeed = 2f;
 
-    // --- Nuevas variables ---
-    private Vector2 lastInputDelta;
-    private Vector3 lastAngularVelocity;
-    private Quaternion targetUprightRotation;
+    private Camera cam;
+    private bool dragging;
+    private Vector3 lastAngularVel; // (x=pitch, y=yaw)
 
     void OnEnable()
     {
-        if (pointerPress != null)
-        {
-            pointerPress.action.started   += OnPointerPressed;
-            pointerPress.action.canceled  += OnPointerReleased;
-            pointerPress.action.Enable();
-        }
-        if (pointerDelta != null) pointerDelta.action.Enable();
-        if (pointerPosition != null) pointerPosition.action.Enable();
-
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        targetUprightRotation = Quaternion.identity;
+        pointerPress?.action.Enable();
+        pointerDelta?.action.Enable();
+        pointerPosition?.action.Enable();
     }
-
     void OnDisable()
     {
-        if (pointerPress != null)
+        pointerPress?.action.Disable();
+        pointerDelta?.action.Disable();
+        pointerPosition?.action.Disable();
+    }
+
+    void Awake() { ResolveCamera(); Cursor.lockState = CursorLockMode.None; Cursor.visible = true; }
+
+    void ResolveCamera()
+    {
+        if (raycastCamera) { cam = raycastCamera; return; }
+        cam = Camera.main;
+        if (!cam)
         {
-            pointerPress.action.started  -= OnPointerPressed;
-            pointerPress.action.canceled -= OnPointerReleased;
-            pointerPress.action.Disable();
+            var brain = FindObjectOfType<CinemachineBrain>();
+            if (brain) cam = brain.GetComponent<Camera>();
         }
-        if (pointerDelta != null) pointerDelta.action.Disable();
-        if (pointerPosition != null) pointerPosition.action.Disable();
+        if (!cam)
+        {
+            var any = FindObjectOfType<Camera>();
+            if (any && any.enabled) cam = any;
+        }
     }
 
     void Update()
     {
+        if (!cam) ResolveCamera();
+
+        if (pointerPress && pointerPress.action.WasPressedThisFrame())
+        {
+            if (RayHitsThis())
+            {
+                dragging = true;
+                lastAngularVel = Vector3.zero;
+            }
+        }
+
+        // STOP drag
+        if (pointerPress && pointerPress.action.WasReleasedThisFrame())
+        {
+            dragging = false;
+        }
+
         if (dragging)
         {
-            Vector2 delta = pointerDelta != null ? pointerDelta.action.ReadValue<Vector2>() : Vector2.zero;
-            if (delta.sqrMagnitude <= Mathf.Epsilon) return;
-
-            float dx = delta.x * rotationSpeed * Time.deltaTime;
-            float dy = delta.y * rotationSpeed * Time.deltaTime * (invertY ? 1f : -1f);
-
-            Transform camTf = cam != null ? cam.transform : Camera.main.transform;
-
-            // Rotaciones
-            transform.Rotate(transform.up, dx, Space.World);
-            transform.Rotate(camTf.right, dy, Space.World);
-
-            // Guarda última velocidad angular (para inercia)
-            lastAngularVelocity = new Vector3(dy, dx, 0f);
-            lastInputDelta = delta;
-        }
-        else
-        {
-            // 🔹 Inercia: el casco sigue girando suavemente
-            if (lastAngularVelocity.sqrMagnitude > 0.001f)
+            Vector2 delta = pointerDelta ? pointerDelta.action.ReadValue<Vector2>() : Vector2.zero;
+            if (delta.sqrMagnitude > Mathf.Epsilon)
             {
-                transform.Rotate(Vector3.up, lastAngularVelocity.y, Space.World);
-                transform.Rotate(cam.transform.right, lastAngularVelocity.x, Space.World);
+                float dx = delta.x * rotationSpeed * Time.deltaTime * (invertX ? -1f : 1f);
+                float dy = delta.y * rotationSpeed * Time.deltaTime * (invertY ? 1 : -1);
 
-                // Frenado gradual
-                lastAngularVelocity = Vector3.Lerp(lastAngularVelocity, Vector3.zero, Time.deltaTime * inertiaDamping);
+                Transform camTf = referenceCinemachine ? referenceCinemachine.transform : cam.transform;
+
+                transform.Rotate(transform.up, dx, Space.World);
+                transform.Rotate(camTf.right, dy, Space.World);
+
+                lastAngularVel = new Vector3(dy, dx, 0f);
             }
-
-            // 🔹 Rotación automática continua (eje Y)
-            transform.Rotate(Vector3.up, autoRotateSpeed * Time.deltaTime, Space.World);
-
-            // 🔹 Reajuste vertical (vuelve boca arriba)
-            UprightCorrection();
-        }
-    }
-
-    private void UprightCorrection()
-    {
-        // Alinea el casco para que su 'up' vuelva a alinearse con el Vector3.up
-        Vector3 forward = transform.forward;
-        forward.y = 0; // mantiene horizontal
-        if (forward.sqrMagnitude > 0.001f)
-        {
-            Quaternion target = Quaternion.LookRotation(forward.normalized, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * uprightReturnSpeed);
-        }
-    }
-
-    private void OnPointerPressed(InputAction.CallbackContext ctx)
-    {
-        if (IsPointerOverUI(out int pointerId))
             return;
-
-        if (!ScreenRayHitsThis(pointerId))
-            return;
-
-        dragging = true;
-        activePointerId = pointerId;
-        lastAngularVelocity = Vector3.zero; // detiene inercia anterior
-    }
-
-    private void OnPointerReleased(InputAction.CallbackContext ctx)
-    {
-        dragging = false;
-        activePointerId = -1;
-    }
-
-    private bool IsPointerOverUI(out int pointerId)
-    {
-        pointerId = -1;
-
-        if (Mouse.current != null && Mouse.current.leftButton.isPressed)
-        {
-            pointerId = PointerInputModule.kMouseLeftId;
-            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-                return true;
         }
 
-        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
+        if (lastAngularVel.sqrMagnitude > 0.0001f)
         {
-            pointerId = Touchscreen.current.primaryTouch.touchId.ReadValue();
-            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(pointerId))
-                return true;
+            Transform camTf = referenceCinemachine ? referenceCinemachine.transform : cam.transform;
+            transform.Rotate(transform.up, lastAngularVel.y, Space.World);
+            transform.Rotate(camTf.right, lastAngularVel.x, Space.World);
+            lastAngularVel = Vector3.Lerp(lastAngularVel, Vector3.zero, Time.deltaTime * inertiaDamping);
         }
 
-        return false;
+        transform.Rotate(Vector3.up, autoRotateSpeed * Time.deltaTime, Space.World);
+
+        Vector3 f = transform.forward; f.y = 0f; if (f.sqrMagnitude < 0.0001f) f = Vector3.forward;
+        Quaternion target = Quaternion.LookRotation(f.normalized, Vector3.up);
+        transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * uprightReturnSpeed);
     }
 
-    private bool ScreenRayHitsThis(int pointerId)
+    bool RayHitsThis()
     {
-        if (pointerPosition == null) return false;
-
+        if (pointerPosition == null || cam == null) return false;
         Vector2 pos = pointerPosition.action.ReadValue<Vector2>();
-        Ray ray = Camera.main.ScreenPointToRay(pos);
-
-        if (Physics.Raycast(ray, out var hit, 1000f, interactMask, QueryTriggerInteraction.Ignore))
-        {
+        Ray ray = cam.ScreenPointToRay(pos);
+        if (Physics.Raycast(ray, out var hit, 5000f, interactMask, QueryTriggerInteraction.Ignore))
             return hit.transform == transform || hit.transform.IsChildOf(transform);
-        }
         return false;
     }
 }
