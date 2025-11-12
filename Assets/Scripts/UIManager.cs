@@ -14,6 +14,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject InventoryPiecesPanel;
     [SerializeField] private GameObject InfoPanel;
     [SerializeField] private GameObject ThirdVisor;
+    [SerializeField] private GameObject FilterPanel;
+    [SerializeField] private GameObject BigFilter;
+    [SerializeField] private GameObject ComputerPanel;
+    [SerializeField] private GameObject BigComputer;
+    [SerializeField] private GameObject FilterPiecesPanel;
+    [SerializeField] private GameObject ComputerPiecesPanel;
+    
     
     
     
@@ -38,6 +45,10 @@ public class UIManager : MonoBehaviour
         InventoryPiecesPanel.SetActive(false);
         InfoPanel.SetActive(false);
         ThirdVisor.SetActive(false);
+        FilterPanel.SetActive(false);
+        BigFilter.SetActive(false);
+        ComputerPanel.SetActive(false);
+        BigComputer.SetActive(false);
         
         //InfoPanelAnimator.SetTrigger("ShowInfoPanel");
         
