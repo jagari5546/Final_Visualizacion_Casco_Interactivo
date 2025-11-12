@@ -10226,12 +10226,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170877643}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.082, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.0819993, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &170877646
 MeshRenderer:
@@ -10304,7 +10304,7 @@ MonoBehaviour:
   targetRenderer: {fileID: 170877646}
   colorProperty: _BaseColor
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -10388,8 +10388,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 197924463}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -15365,8 +15365,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 207960573}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -15507,8 +15507,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 266456782}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -21028,7 +21028,7 @@ MonoBehaviour:
   targetRenderer: {fileID: 317361837}
   colorProperty: _BaseColor
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -26131,8 +26131,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.99951774, z: 0.03105306, w: 0}
-  m_LocalPosition: {x: -239.01, y: -58.1, z: 312.9}
+  m_LocalRotation: {x: 0, y: 0.98566705, z: -0.1687025, w: 0}
+  m_LocalPosition: {x: -239.01, y: 40.8, z: 307.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26492,7 +26492,7 @@ MonoBehaviour:
   targetRenderer: {fileID: 406975647}
   colorProperty: _BaseColor
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -27287,7 +27287,7 @@ MonoBehaviour:
   targetRenderer: {fileID: 522837544}
   colorProperty: _BaseColor
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -27402,8 +27402,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 530567735}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.499, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.49900413, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -27414,7 +27414,7 @@ Transform:
   - {fileID: 1588316109}
   - {fileID: 1735459891}
   - {fileID: 1455590572}
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &577340829
 GameObject:
@@ -27584,7 +27584,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599670970}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -27595,7 +27595,7 @@ Transform:
   - {fileID: 1176872294}
   - {fileID: 603131769}
   - {fileID: 406975645}
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &603131768
 GameObject:
@@ -27704,7 +27704,7 @@ MonoBehaviour:
   targetRenderer: {fileID: 603131771}
   colorProperty: _BaseColor
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -27767,12 +27767,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 630997430}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.07, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.0700016, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &630997432
 MonoBehaviour:
@@ -27788,8 +27788,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 630997434}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -39337,7 +39337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 877399356}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -39348,7 +39348,7 @@ Transform:
   - {fileID: 1051768015}
   - {fileID: 1010161975}
   - {fileID: 1834115931}
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &883747764
 GameObject:
@@ -44563,8 +44563,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 964294017}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -44900,7 +44900,7 @@ MonoBehaviour:
   targetRenderer: {fileID: 1010161977}
   colorProperty: _BaseColor
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -45160,8 +45160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1051768018}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -45724,8 +45724,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1176872297}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -45842,14 +45842,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177150420}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.056505255, y: -0, z: -0, w: 0.9984023}
-  m_LocalPosition: {x: 0, y: -2.243, z: -0.901}
-  m_LocalScale: {x: 0.91161, y: 0.91161, z: 0.19037431}
+  m_LocalRotation: {x: -0.056505278, y: -0.0000000037252903, z: -0.0000000037252903, w: 0.99840236}
+  m_LocalPosition: {x: 0, y: -2.2430034, z: -0.90100014}
+  m_LocalScale: {x: 0.91160995, y: 0.91161, z: 0.19037431}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 522837541}
   - {fileID: 317361835}
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: -6.478, y: 0, z: 0}
 --- !u!1 &1188371396
 GameObject:
@@ -46308,8 +46308,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1209302140}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -46451,8 +46451,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1213979229}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -46851,12 +46851,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243840931}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.898, z: -0.47}
-  m_LocalScale: {x: 1.0795, y: 1.0795, z: 1.0795}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.898005, z: -0.46999866}
+  m_LocalScale: {x: 1.0794998, y: 1.0795, z: 1.0795}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1243840933
 MonoBehaviour:
@@ -46872,8 +46872,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1243840935}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -46982,7 +46982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1291203323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47313,8 +47313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1317030670}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -47759,6 +47759,48 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377124684}
   m_CullTransparentMesh: 1
+--- !u!1 &1390031280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1390031281}
+  m_Layer: 6
+  m_Name: Casco Completo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1390031281
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390031280}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 170877644}
+  - {fileID: 1719827601}
+  - {fileID: 1931342447}
+  - {fileID: 1243840932}
+  - {fileID: 630997431}
+  - {fileID: 1606276430}
+  - {fileID: 1599094898}
+  - {fileID: 877399357}
+  - {fileID: 599670971}
+  - {fileID: 530567736}
+  - {fileID: 1177150421}
+  m_Father: {fileID: 1740832902}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1421083817
 GameObject:
   m_ObjectHideFlags: 0
@@ -47927,6 +47969,133 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1421083817}
   m_CullTransparentMesh: 1
+--- !u!1 &1441499828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1441499829}
+  - component: {fileID: 1441499831}
+  - component: {fileID: 1441499830}
+  m_Layer: 6
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1441499829
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441499828}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.517, y: -0.336, z: 0.419}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1719827601}
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1441499830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441499828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalLightData
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_CustomShadowLayers: 0
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
+--- !u!108 &1441499831
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441499828}
+  m_Enabled: 1
+  serializedVersion: 11
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ForceVisible: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_LightUnit: 1
+  m_LuxAtDistance: 1
+  m_EnableSpotReflector: 1
 --- !u!1 &1442242841
 GameObject:
   m_ObjectHideFlags: 0
@@ -48112,8 +48281,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1455590575}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -48254,8 +48423,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1456976924}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -49213,8 +49382,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1586228789}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -49354,8 +49523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1588316112}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -49618,12 +49787,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1599094897}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.785, z: 0.141}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.7850053, z: 0.14100067}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1599094899
 MonoBehaviour:
@@ -49639,8 +49808,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1599094901}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -49895,12 +50064,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1606276429}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.011, z: -0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.0109992, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1606276431
 MonoBehaviour:
@@ -49916,8 +50085,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1606276433}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -50551,12 +50720,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719827600}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0027031295, y: 0.07118267, z: 0.08717864, w: 0.99364257}
-  m_LocalPosition: {x: -0.2022, y: -1.9533999, z: -0.025784254}
+  m_LocalRotation: {x: 0.0027030802, y: 0.07118267, z: 0.08717865, w: 0.99364257}
+  m_LocalPosition: {x: -0.20220186, y: -1.9534023, z: -0.02578393}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 1740832902}
+  m_Children:
+  - {fileID: 1441499829}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: -0.403, y: 8.16, z: 9.999}
 --- !u!23 &1719827603
 MeshRenderer:
@@ -50631,7 +50801,7 @@ MonoBehaviour:
   targetRenderer: {fileID: 1719827603}
   colorProperty: _BaseColor
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -50851,8 +51021,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1735459894}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -50971,24 +51141,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740832901}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -240.05, y: -56.672, z: 281.24}
-  m_LocalScale: {x: 2.5734, y: 2.5734, z: 2.5734}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -239.71, y: -49.95, z: 299.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 170877644}
-  - {fileID: 1719827601}
-  - {fileID: 1931342447}
-  - {fileID: 1243840932}
-  - {fileID: 630997431}
-  - {fileID: 1606276430}
-  - {fileID: 1599094898}
-  - {fileID: 877399357}
-  - {fileID: 599670971}
-  - {fileID: 530567736}
-  - {fileID: 1177150421}
+  - {fileID: 1390031281}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1740832903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51035,8 +51195,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Radius: 2.68
-  m_Center: {x: 0, y: -2.06, z: 0}
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &1740832905
 Animator:
   serializedVersion: 7
@@ -51630,7 +51790,7 @@ MonoBehaviour:
   targetRenderer: {fileID: 1834115933}
   colorProperty: _BaseColor
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -52396,12 +52556,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931342446}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0038013458, y: -0.048153136, z: -0.07861296, w: 0.9957344}
-  m_LocalPosition: {x: 0.18028575, y: -1.9851077, z: -0.020800114}
+  m_LocalRotation: {x: -0.0038013305, y: -0.04815314, z: -0.07861296, w: 0.9957344}
+  m_LocalPosition: {x: 0.1802828, y: -1.9851058, z: -0.020800246}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 1740832902}
+  m_Father: {fileID: 1390031281}
   m_LocalEulerAnglesHint: {x: -0.868, y: -5.469, z: -8.987}
 --- !u!23 &1931342449
 MeshRenderer:
@@ -52475,8 +52635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 1931342449}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
@@ -53012,8 +53172,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PartsScript
   targetRenderer: {fileID: 2047665124}
   colorProperty: _BaseColor
-  normalColor: {r: 0.6886792, g: 0.09420614, b: 0.09420614, a: 1}
-  hoverColor: {r: 0, g: 0, b: 0.9245283, a: 1}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 0, b: 0, a: 1}
   pressedColor: {r: 0.85, g: 0.85, b: 1, a: 1}
   interactable: 1
   onClick:
