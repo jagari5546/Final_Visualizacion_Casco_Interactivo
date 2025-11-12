@@ -9,6 +9,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject RepairsPanel;
     [SerializeField] private GameObject InventoryPanel;
     [SerializeField] private GameObject FunctionsPanel;
+    [SerializeField] private GameObject SecondVisor;
+    [SerializeField] private GameObject HelmetInPieces;
+    [SerializeField] private GameObject InventoryPiecesPanel;
+    [SerializeField] private GameObject InfoPanel;
+    
+    
+    
 
     //[SerializeField] private Animator InfoPanelAnimator;
     
@@ -25,6 +32,10 @@ public class UIManager : MonoBehaviour
         RepairsPanel.SetActive(false);
         InventoryPanel.SetActive(false);
         FunctionsPanel.SetActive(false);
+        SecondVisor.SetActive(false);
+        HelmetInPieces.SetActive(false);
+        InventoryPiecesPanel.SetActive(false);
+        InfoPanel.SetActive(false);
         
         //InfoPanelAnimator.SetTrigger("ShowInfoPanel");
         
