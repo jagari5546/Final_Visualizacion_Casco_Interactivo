@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject HelmetInPieces;
     [SerializeField] private GameObject InventoryPiecesPanel;
     [SerializeField] private GameObject InfoPanel;
+    [SerializeField] private GameObject ThirdVisor;
     
     
     
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour
         HelmetInPieces.SetActive(false);
         InventoryPiecesPanel.SetActive(false);
         InfoPanel.SetActive(false);
+        ThirdVisor.SetActive(false);
         
         //InfoPanelAnimator.SetTrigger("ShowInfoPanel");
         
